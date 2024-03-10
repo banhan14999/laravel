@@ -40,9 +40,6 @@ jobs:
           echo "MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}" >> .env
           echo "MAIL_FROM_NAME=${{ secrets.MAIL_FROM_NAME }}" >> .env
 
-      - name: migrate database
-        run: php artisan migrate
-
       - name: Make artifact
         run: zip -r backend.zip ./*
 
@@ -69,3 +66,8 @@ jobs:
           mv ~/backend.zip ~/laravel
           unzip ~/laravel/backend.zip
           rm -rf ~/laravel/backend.zip
+
+    - name: migrate database
+      run: |
+        cd ~/laravel
+        php artisan migrate
