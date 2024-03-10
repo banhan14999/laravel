@@ -65,8 +65,8 @@ jobs:
         run: |
           rm -rf /home/ubuntu/laravel/*
           mv backend.zip /home/ubuntu/laravel
-          unzip  /home/ubuntu/laravel/backend.zip
-          rm -rf  /home/ubuntu/backend.zip
+          unzip  /home/ubuntu/laravel/backend.zip -d /home/ubuntu/laravel
+          rm -rf  /home/ubuntu/laravel/backend.zip
 
       # - name: migrate database
       #   run: |
