@@ -63,12 +63,12 @@ jobs:
 
       - name: Extract file to server
         run: |
-          rm -rf ~/laravel/*
-          mv ~/backend.zip ~/laravel
-          unzip ~/laravel/backend.zip
-          rm -rf ~/laravel/backend.zip
+          rm -rf /home/ubuntu/laravel/*
+          mv backend.zip /home/ubuntu/laravel
+          unzip  /home/ubuntu/laravel/backend.zip
+          rm -rf  /home/ubuntu/backend.zip
 
-      - name: migrate database
-        run: |
-          cd ~/laravel
-          php artisan migrate
+      # - name: migrate database
+      #   run: |
+      #     cd ~/laravel
+      #     php artisan migrate
