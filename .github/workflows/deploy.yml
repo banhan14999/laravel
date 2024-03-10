@@ -41,6 +41,9 @@ jobs:
           echo "MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}" >> .env
           echo "MAIL_FROM_NAME=${{ secrets.MAIL_FROM_NAME }}" >> .env
 
+      - name: List all file
+        run: ls -la
+        
       - name: Make artifact
         run: zip -r backend.zip ./*
 
