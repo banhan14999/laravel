@@ -29,7 +29,7 @@
 
 <body>
     <h1>Users</h1>
-    <h2>Test Auto Deploy</h2>
+    <h2>Hello Deploy</h2>
 
     <table>
         <thead>
