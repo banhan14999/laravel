@@ -25,6 +25,7 @@ jobs:
       - name: setup .env file
         run: |
           echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
           echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
@@ -67,7 +68,7 @@ jobs:
           unzip ~/laravel/backend.zip
           rm -rf ~/laravel/backend.zip
 
-    - name: migrate database
-      run: |
-        cd ~/laravel
-        php artisan migrate
+      - name: migrate database
+        run: |
+          cd ~/laravel
+          php artisan migrate
