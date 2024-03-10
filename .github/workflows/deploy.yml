@@ -66,7 +66,7 @@ jobs:
 
       - name: Extract file to server
         run: |
-          rm -rf /home/ubuntu/laravel/*
+          rm -rf /home/ubuntu/laravel/* /home/ubuntu/laravel/.[^.]*
           mv backend.zip /home/ubuntu/laravel
           unzip  /home/ubuntu/laravel/backend.zip -d /home/ubuntu/laravel
           rm -rf  /home/ubuntu/laravel/backend.zip
