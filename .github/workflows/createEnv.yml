@@ -19,10 +19,10 @@ jobs:
       - name: Parse JSON and create env file
         shell: bash
         run: |
-          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > env_file
+          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > env_file.txt
 
       - name: list all files and folders
         run: ls -la
 
       - name: read file
-        run: cat env_file
+        run: cat env_file.txt
