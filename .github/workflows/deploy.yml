@@ -1,77 +1,77 @@
-name: deploy
+# name: deploy
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  build:
-    runs-on: ubuntu-20.04
+# jobs:
+#   # build:
+#   #   runs-on: ubuntu-20.04
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+#   #   steps:
+#   #     - name: Checkout repository
+#   #       uses: actions/checkout@v3
 
-      - name: Setup PHP with composer
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1"
-          tools: composer:v2
+#   #     - name: Setup PHP with composer
+#   #       uses: shivammathur/setup-php@v2
+#   #       with:
+#   #         php-version: "8.1"
+#   #         tools: composer:v2
       
-      - name: Install dependencies
-        run: composer install
+#   #     - name: Install dependencies
+#   #       run: composer install
       
-      - name: setup .env file
-        run: |
-          echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
-          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+#   #     - name: setup .env file
+#   #       run: |
+#   #         echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+#   #         echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
+#   #         echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+#   #         echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+#   #         echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+#   #         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+#   #         echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
 
-          echo "MAIL_MAILER=${{ secrets.MAIL_MAILER }}" >> .env
-          echo "MAIL_HOST=${{ secrets.MAIL_HOST }}" >> .env
-          echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> .env
-          echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
-          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
-          echo "MAIL_ENCRYPTION=${{ secrets.MAIL_ENCRYPTION }}" >> .env
-          echo "MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}" >> .env
-          echo "MAIL_FROM_NAME=${{ secrets.MAIL_FROM_NAME }}" >> .env
+#   #         echo "MAIL_MAILER=${{ secrets.MAIL_MAILER }}" >> .env
+#   #         echo "MAIL_HOST=${{ secrets.MAIL_HOST }}" >> .env
+#   #         echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> .env
+#   #         echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
+#   #         echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+#   #         echo "MAIL_ENCRYPTION=${{ secrets.MAIL_ENCRYPTION }}" >> .env
+#   #         echo "MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}" >> .env
+#   #         echo "MAIL_FROM_NAME=${{ secrets.MAIL_FROM_NAME }}" >> .env
 
-      - name: List all file
-        run: ls -la
+#   #     - name: List all file
+#   #       run: ls -la
         
-      - name: Make artifact
-        run: zip -r backend.zip ./* .[^.]*
+#   #     - name: Make artifact
+#   #       run: zip -r backend.zip ./* .[^.]*
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: backend-artifact
-          path: backend.zip
-          retention-days: 1
+#   #     - name: Upload artifact
+#   #       uses: actions/upload-artifact@v3
+#   #       with:
+#   #         name: backend-artifact
+#   #         path: backend.zip
+#   #         retention-days: 1
 
-  deploy:
-    runs-on: self-hosted
-    needs:
-      - build
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: backend-artifact
+#   deploy:
+#     runs-on: self-hosted
+#     needs:
+#       - build
+#     steps:
+#       - name: Download Artifact
+#         uses: actions/download-artifact@v3
+#         with:
+#           name: backend-artifact
 
-      - name: Extract file to server
-        run: |
-          rm -rf ~/laravel/* ~/laravel/.[^.]*
-          mv backend.zip ~/laravel
-          unzip  ~/laravel/backend.zip -d ~/laravel
-          rm -rf  ~/laravel/backend.zip
+#       - name: Extract file to server
+#         run: |
+#           rm -rf ~/laravel/* ~/laravel/.[^.]*
+#           mv backend.zip ~/laravel
+#           unzip  ~/laravel/backend.zip -d ~/laravel
+#           rm -rf  ~/laravel/backend.zip
 
-      # - name: migrate database
-      #   run: |
-      #     cd ~/laravel
-      #     php artisan migrate
+#       # - name: migrate database
+#       #   run: |
+#       #     cd ~/laravel
+#       #     php artisan migrate
