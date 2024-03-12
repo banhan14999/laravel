@@ -9,7 +9,6 @@ on:
 jobs:
   create_env:
     runs-on: ubuntu-20.04
-    needs: build
     steps:
       - name: view the secrets context
         shell: bash
