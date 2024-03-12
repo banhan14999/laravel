@@ -6,7 +6,7 @@ on:
     types:
       - completed
   
-job:
+jobs:
   create_env:
     runs-on: ubuntu-20.04
     needs: build
