@@ -15,14 +15,12 @@ jobs:
 
       - name: Parse JSON and create env file
         shell: bash
-        run: |
-          for secret in key value; do
-            value="$(jq -r --arg key "$secret" '.[$key]' <<< "$SECRETS_CONTEXT" | sed 's|.|& |g')"
-            echo "$secret: $value"
-          done
-          # echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > env_file.txt
+        environment:
+          name: production
         env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          SECRETS_CONTEXT: ${{ toJson(vars) }}
+        run: |
+          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > env_file.txt
 
       - name: list all files and folders
         run: ls -la
