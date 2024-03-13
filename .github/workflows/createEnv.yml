@@ -15,7 +15,10 @@ jobs:
         run: echo "$SECRETS_CONTEXT"
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
-          
+
+      - name: install jq
+        run: sudo apt-get install jq
+
       - name: Parse JSON and create env file
         shell: bash
         run: |

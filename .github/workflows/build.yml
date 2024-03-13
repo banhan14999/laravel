@@ -13,11 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup PHP with composer
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1"
-          tools: composer:v2
+      # - name: Setup PHP with composer
+      #   uses: shivammathur/setup-php@v2
+      #   with:
+      #     php-version: "8.1"
+      #     tools: composer:v2
       
       # - name: Install dependencies
       #   run: composer install
@@ -44,13 +44,13 @@ jobs:
       # - name: List all file
       #   run: ls -la
         
-      - name: Make artifact
-        run: zip -r backend.zip ./*
-        # run: zip -r backend.zip ./* .[^.]*
+      # - name: Make artifact
+      #   run: zip -r backend.zip ./*
+      #   # run: zip -r backend.zip ./* .[^.]*
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: backend-artifact
-          path: backend.zip
-          retention-days: 1
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: backend-artifact
+      #     path: backend.zip
+      #     retention-days: 1
