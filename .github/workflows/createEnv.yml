@@ -9,14 +9,15 @@ on:
 jobs:
   create_env:
     runs-on: ubuntu-20.04
+    environment:
+      name: production
+    
     steps:
       - name: install jq
         run: sudo apt-get install jq
 
       - name: Parse JSON and create env file
         shell: bash
-        environment:
-          name: production
         env:
           SECRETS_CONTEXT: ${{ toJson(vars) }}
         run: |
