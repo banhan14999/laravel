@@ -16,10 +16,7 @@ jobs:
       - name: Parse JSON and create env file
         shell: bash
         run: |
-          while IFS="=" read -r key value; do
-            secret_value="${!value}"
-            echo "$key=$secret_value"
-          done < <(echo "$SECRETS_CONTEXT" | jq -r '. | to_entries|map("\(.key)=\(.value|tostring)")|.[]')
+          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | sed 's/.value/${{ secrets.secret_key }}/g' > env_file.txt
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
