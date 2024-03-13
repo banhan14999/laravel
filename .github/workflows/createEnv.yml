@@ -10,12 +10,6 @@ jobs:
   create_env:
     runs-on: ubuntu-20.04
     steps:
-      - name: view the secrets context
-        shell: bash
-        run: echo "$SECRETS_CONTEXT"
-        env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
-
       - name: install jq
         run: sudo apt-get install jq
 
@@ -23,6 +17,8 @@ jobs:
         shell: bash
         run: |
           echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > env_file.txt
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - name: list all files and folders
         run: ls -la
