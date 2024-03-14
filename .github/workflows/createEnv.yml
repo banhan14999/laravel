@@ -21,10 +21,14 @@ jobs:
         env:
           SECRETS_CONTEXT: ${{ toJson(vars) }}
         run: |
-          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > env_file.txt
+          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > .env
 
-      - name: list all files and folders
-        run: ls -la
+      - name: Make artifact
+        run: zip -r env.zip .env
 
-      - name: read file
-        run: cat env_file.txt
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: env-artifact
+          path: env.zip
+          retention-days: 1
