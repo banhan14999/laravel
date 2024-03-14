@@ -13,12 +13,13 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
+          name: backend.zip
           path: ~/laravel
 
       - name: Extract file to server
         run: |
           rm -rf ~/laravel/* ~/laravel/.[^.]*
           unzip ~/laravel/backend.zip -d ~/laravel
-          unzip ~/laravel/env.zip -d ~/laravel
+          # unzip ~/laravel/env.zip -d ~/laravel
           rm -rf  ~/laravel/backend.zip
           rm -rf  ~/laravel/env.zip
