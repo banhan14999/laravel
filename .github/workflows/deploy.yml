@@ -13,7 +13,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: backend.zip
+          name: backend-artifact
           path: ~/laravel
 
       - name: Extract file to server
