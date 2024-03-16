@@ -36,8 +36,6 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
       - build
-    # environment:
-    #   name: production
     
     steps:
       - name: install jq
@@ -48,7 +46,8 @@ jobs:
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: |
-          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<<"$SECRETS_CONTEXT" > .env
+          FILTERED_CONTEXT=$(echo "$SECRETS_CONTEXT" | jq 'del(.github_token)')
+          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<<"$FILTERED_CONTEXT" > .env
 
       - name: Make artifact
         run: zip -r env.zip .env
