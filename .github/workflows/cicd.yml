@@ -1,0 +1,83 @@
+name: cicd
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup PHP with composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          tools: composer:v2
+      
+      - name: Install dependencies
+        run: composer install
+        
+      - name: Make artifact
+        run: zip -r backend.zip ./* .[^.]*
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-artifact
+          path: backend.zip
+          retention-days: 1
+
+  create_env:
+    runs-on: ubuntu-20.04
+    needs:
+      - build
+    environment:
+      name: production
+    
+    steps:
+      - name: install jq
+        run: sudo apt-get install jq
+
+      - name: Parse JSON and create env file
+        shell: bash
+        env:
+          SECRETS_CONTEXT: ${{ toJson(vars) }}
+        run: |
+          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > .env
+
+      - name: Make artifact
+        run: zip -r env.zip .env
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: env-artifact
+          path: env.zip
+          retention-days: 1
+
+  deploy:
+    runs-on: self-hosted
+    needs:
+      - create_env
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+
+      - name: Extract file to server
+        run: |
+          #delete old ver
+          rm -rf ~/laravel/* ~/laravel/.[^.]*
+
+          unzip backend.zip -d ~/laravel
+          unzip env.zip -d ~/laravel
+          rm -rf backend.zip env.zip
+
+      # - name: migrate database
+      #   run: |
+      #     cd ~/laravel
+      #     php artisan migrate
