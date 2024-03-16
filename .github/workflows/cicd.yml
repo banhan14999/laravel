@@ -67,9 +67,10 @@ jobs:
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
-        name:
-          - backend-artifact
-          - env-artifact
+        with:
+          name:
+            - backend-artifact
+            - env-artifact
 
       - name: Extract file to server
         run: |
