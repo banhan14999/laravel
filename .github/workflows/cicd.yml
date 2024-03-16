@@ -67,9 +67,9 @@ jobs:
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
-
-      - name: list all files
-        run: ls -la
+        name:
+          - backend-artifact
+          - env-artifact
 
       - name: Extract file to server
         run: |
