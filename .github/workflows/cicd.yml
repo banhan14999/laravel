@@ -73,9 +73,10 @@ jobs:
           #delete old ver
           rm -rf ~/laravel/* ~/laravel/.[^.]*
 
-          unzip backend.zip -d ~/laravel
-          unzip env.zip -d ~/laravel
-          rm -rf backend.zip env.zip
+          unzip backend-artifact -d ~/laravel
+          unzip env-artifact -d ~/laravel
+
+          rm -rf ./*
 
       # - name: migrate database
       #   run: |
