@@ -48,7 +48,7 @@ jobs:
         env:
           SECRETS_CONTEXT: ${{ toJson(vars) }}
         run: |
-          echo "$SECRETS_CONTEXT" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > .env
+          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<<"$SECRETS_CONTEXT" > .env
 
       - name: Make artifact
         run: zip -r env.zip .env
