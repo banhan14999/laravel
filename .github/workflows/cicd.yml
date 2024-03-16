@@ -36,8 +36,8 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
       - build
-    environment:
-      name: production
+    # environment:
+    #   name: production
     
     steps:
       - name: install jq
@@ -46,7 +46,7 @@ jobs:
       - name: Parse JSON and create env file
         shell: bash
         env:
-          SECRETS_CONTEXT: ${{ toJson(vars) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: |
           jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<<"$SECRETS_CONTEXT" > .env
 
