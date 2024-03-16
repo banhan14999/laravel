@@ -67,16 +67,14 @@ jobs:
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
-        with:
-          name: backend-artifact env-artifact
 
       - name: Extract file to server
         run: |
           #delete old ver
           rm -rf ~/laravel/* ~/laravel/.[^.]*
 
-          unzip backend-artifact -d ~/laravel
-          unzip env-artifact -d ~/laravel
+          unzip backend-artifact/backend -d ~/laravel
+          unzip env-artifact/env -d ~/laravel
 
           rm -rf ./*
 
